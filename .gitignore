@@ -1,0 +1,56 @@
+# ─── Python ───────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+.Python
+
+# ─── Virtual Environments ─────────────────────────────────────
+venv/
+env/
+ENV/
+.env
+.venv
+
+# ─── Jupyter ──────────────────────────────────────────────────
+.ipynb_checkpoints/
+*.ipynb
+
+# ─── VS Code ──────────────────────────────────────────────────
+.vscode/
+*.code-workspace
+
+# ─── Large Dataset Folders (too big for GitHub) ───────────────
+data/images/
+data/labels/
+data_full/images/
+data_full/labels/
+rdd2022-DatasetNinja/train/
+rdd2022-DatasetNinja/test/
+
+# ─── Model Weights (upload to Google Drive / Releases) ────────
+# Uncomment to also ignore model weights:
+# models/*.pt
+# yolov8n.pt
+
+# ─── Training Run Artifacts ───────────────────────────────────
+runs/
+scripts/runs/
+
+# ─── Temporary / OS Files ─────────────────────────────────────
+*.tmp
+*.log
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ─── Build / Distribution ─────────────────────────────────────
+dist/
+build/
+*.egg-info/
+
+# ─── MyPy / Coverage ──────────────────────────────────────────
+.mypy_cache/
+.coverage
+htmlcov/
