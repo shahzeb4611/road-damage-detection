@@ -112,7 +112,7 @@ models/
 streamlit run app.py
 ```
 
-Open your browser at **http://localhost:8501** 🎉
+Open your browser at **<http://localhost:8501>** 🎉
 
 ---
 
@@ -155,7 +155,7 @@ Open your browser at **http://localhost:8501** 🎉
 
 ## 📊 Dataset
 
-The model was trained on the **[RDD2022 dataset](https://github.com/sekilab/RoadDamageDetector)** which contains road images from multiple countries (Japan, India, Czech Republic, Norway, United States, China) annotated with road damage bounding boxes.
+The model was trained on the **[RDD2022 dataset](https://datasetninja.com/road-damage-detector)** which contains road images from multiple countries (Japan, India, Czech Republic, Norway, United States, China) annotated with road damage bounding boxes.
 
 > 📂 Due to its large size, the dataset is **not included** in this repository.
 > Download it from the official RDD2022 source and place images/labels into the `data/` or `data_full/` folders.

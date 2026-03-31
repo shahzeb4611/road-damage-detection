@@ -1,24 +1,3 @@
----
-title: "Project Assignment #1"
-author: "[Student Name 1], [Student Name 2], [Student Name 3]"
-date: "February 20, 2026"
----
-
-# Project Assignment # 1
-
-## Group Members & Roles
-
-| Name | Role |
-| :--- | :--- |
-| **[Student Name 1]** | Team Lead / System Architect |
-| **[Student Name 2]** | CV Model Developer |
-| **[Student Name 3]** | Data Analyst / Tester |
-
-> [!NOTE]
-> Please replace the bracketed names and roles with actual team member details.
-
----
-
 ## Part A — Problem Definition
 
 ### 1. Real-World Problem Being Solved
