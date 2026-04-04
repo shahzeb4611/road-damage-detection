@@ -1,4 +1,4 @@
-path: .
+path: e:/BS-CS-07/Computer Vision/Assignmnet-1/data_full
 train: images/train
 val: images/val
 
