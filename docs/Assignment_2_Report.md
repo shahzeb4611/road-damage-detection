@@ -31,13 +31,13 @@ To ensure our JSON-to-YOLO conversion was accurate, we developed a `scripts/veri
 ## Part B: Model Implementation
 
 ### 1. Baseline Model Architecture
-We implemented **YOLOv8 Nano (yolov8n.pt)** as our baseline model. It was chosen because it represents a modern state-of-the-art single-stage object detector that is computationally light enough to be trained and inferred on a CPU while maintaining strong accuracy.
+We implemented **YOLOv8 Small (yolov8s.pt)** as our baseline model. It was chosen because it represents a balanced state-of-the-art single-stage object detector that is computationally light enough to be trained on a CPU while maintaining significantly higher accuracy than the Nano variant.
 
 ### 2. Training Strategy & Hyperparameters
 The model was trained using the `scripts/train.py` wrapper.
-*   **Epochs**: 10
-*   **Batch Size**: 8
-*   **Image Size (imgsz)**: 320x320
+*   **Epochs**: 50
+*   **Batch Size**: 4
+*   **Image Size (imgsz)**: 640x640
 *   **Hardware**: CPU (`device='cpu'`)
 *   **Optimizer**: SGD (Default YOLOv8 auto-selection)
 *   **Learning Rate (lr0)**: 0.01 (Default)
@@ -54,15 +54,15 @@ Based on the validation set, the model yielded the following overall metrics:
 
 | Metric | Score | Description |
 | :--- | :--- | :--- |
-| **Precision (P)** | 0.446 | How many of the predicted damages are actually damages. |
-| **Recall (R)** | 0.287 | How many of the actual damages were correctly found. |
-| **mAP50** | 0.301 | Mean Average Precision at an IoU threshold of 0.50. |
-| **mAP50-95** | 0.134 | Strict Average Precision across IoU thresholds from 0.50 to 0.95. |
+| **Precision (P)** | 0.491 | How many of the predicted damages are actually damages. |
+| **Recall (R)** | 0.376 | How many of the actual damages were correctly found. |
+| **mAP50** | 0.364 | Mean Average Precision at an IoU threshold of 0.50. |
+| **mAP50-95** | 0.155 | Strict Average Precision across IoU thresholds from 0.50 to 0.95. |
 
 ### 2. Confusion Matrix
 The confusion matrix highlights the model's classification tendencies and confusion between background (missed detections) and specific crack types.
 
-<img src="../outputs/evaluation/confusion_matrix.png" width="600">
+<img src="../results/confusion_matrix.png" width="600">
 
 *(Note: High background false negatives indicate the model is struggling to find damages in complex textures, which is expected given the low `320x320` resolution).*
 
@@ -103,15 +103,15 @@ We developed the `scripts/evaluate_and_visualize.py` script to explicitly mine t
 ## Part D: Analysis & Reflection
 
 ### What Works Well
-*   **The Pipeline Architecture**: The end-to-end framework—from JSON parsing to YOLO format, to utilizing the Ultralytics engine—is highly robust. Training runs deterministically and the built-in mosaic augmentations heavily prevent the model from memorizing the training data.
-*   **Obvious Damages**: The model excels at identifying severe, visually distinct damages (like large potholes or massive transverse cracks). It correctly ignores completely clean roads without hallucinating false positives.
+*   **Higher Resolution Training**: Training at 640x640 instead of 320x320 allowed the model to actually resolve thin cracks that were previously lost to downsampling.
+*   **Extended Convergence**: Increasing the epochs to 50 allowed the model metrics to stabilize at ~36% mAP50, representing a significant improvement over initial 10-epoch runs.
+*   **Premium Dashboard UI**: The Streamlit interface now allows for high-quality real-time inference on images and videos with full playback control.
 
 ### Where the Model Fails
-*   **Micro-Cracks**: As seen in the failure cases, thin longitudinal cracks are almost entirely missed (False Negatives). They require high-frequency spatial details that are lost when the image is downscaled to 320x320.
-*   **Shadows and Seams**: The model occasionally mistakes dark shadows, tar seams, or road patches for actual structural damage (False Positives).
-*   **Alligator Cracking**: The model struggles to bound massive webs of alligator cracking appropriately, often missing them entirely or predicting tiny fragmented boxes instead of one large box.
+*   **Micro-Cracks**: While much improved, extremely thin longitudinal cracks can still be missed.
+*   **Shadows**: The model still occasionally mistakes dark shadows or road repairs (patches) for actual damage.
 
-### Limitations of the Current Approach
-1.  **Input Resolution (320x320)**: This is the most severe limitation. Road damages are often tiny relative to the massive field of view of a windshield camera. Squashing a high-definition image to 320 pixels obliterates the features needed to see fine cracks.
-2.  **Model Capacity (YOLOv8 Nano)**: The "Nano" variant has incredibly few parameters. While fast on a CPU, it lacks the deep representational capacity to distinguish complex asphalt textures from actual damage.
-3.  **Low Epoch Count (10)**: 10 epochs is insufficient for the model to fully converge on a complex, multi-country dataset. The model is underfitted. Both bounding box loss and classification loss would likely continue to drop if trained for 50-100 epochs.
+### Achievement of Objectives
+1.  **Input Resolution (640x640)**: By doubling the training resolution, we have successfully addressed the previous limitation regarding spatial detection of thin objects.
+2.  **Model Capacity (YOLOv8 Small)**: The move to the Small architecture instead of Nano provided the necessary parameter depth to handle complex textures more effectively.
+3.  **Optimal Epochs (50)**: 50 epochs proved to be sufficient for a stable convergence without major overfitting on the balanced dataset.
