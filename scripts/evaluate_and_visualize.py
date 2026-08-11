@@ -10,7 +10,7 @@ def evaluate_and_visualize():
     project_root = os.path.dirname(script_dir)
     
     # Load the best model
-    model_path = os.path.join(project_root, 'models', 'best.pt')
+    model_path = os.path.join(project_root, 'models', 'road_damage_best.pt')
     if not os.path.exists(model_path):
         # Fallback to yolov8n.pt if best.pt is not found for this demonstration
         print(f"Model {model_path} not found. Using baseline yolov8n.pt")

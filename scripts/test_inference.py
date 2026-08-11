@@ -8,7 +8,7 @@ def run_inference():
     project_root = os.path.dirname(script_dir)
     
     # Load the best weights from our final training run
-    model_path = os.path.join(project_root, 'models', 'best.pt')
+    model_path = os.path.join(project_root, 'models', 'road_damage_best.pt')
     model = YOLO(model_path)
 
     # Path to sample images for testing
